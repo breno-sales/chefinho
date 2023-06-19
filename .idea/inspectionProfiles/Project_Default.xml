@@ -1,0 +1,18 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="bots.report_execution_time" />
+          <option value="bots.*" />
+          <option value="str.pop" />
+          <option value="OS" />
+          <option value="api_clicksign.api_clicksign_v2.test.api_clicksign" />
+          <option value="api_clicksign.api_clicksign_v2.test2.api_clicksign_v2" />
+          <option value="cpfl.get_bandeiras.join" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

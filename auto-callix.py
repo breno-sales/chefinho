@@ -32,6 +32,8 @@ def criar_usuario():
 
     dados = pd.read_excel("C:/tester/tester.xlsx")
 
+    # configurado para escala 1920x1080 com ampliação de 125%
+
     for i in range(0, len(dados["nome_colaborador"])):
 
         nome = str(dados["name"][i])
@@ -42,7 +44,9 @@ def criar_usuario():
 
         pyautogui.click(1776,287)
         time.sleep(3)
-        pyautogui.click(674,467)
+        # pyautogui.click(573,526) # seleciona Nome
+        pyautogui.press('tab')
+        pyautogui.press('tab')
         time.sleep(1)
         pyautogui.write(nome)
         pyautogui.press('tab')
@@ -52,15 +56,15 @@ def criar_usuario():
         pyautogui.press('tab')
         pyautogui.write(login)
         time.sleep(1)
-        pyautogui.click(883,538) #abrir perfil de acesso
+        pyautogui.click(566,545) #abrir perfil de acesso
         time.sleep(1)
-        pyautogui.click(645,597) #escolher perfil de agente
+        pyautogui.click(602,600) #escolher perfil de agente
         time.sleep(1)
-        pyautogui.click(733,834)  # abrir menu equipe
+        pyautogui.click(594,834)  # abrir menu equipe
         time.sleep(1)
-        pyautogui.click(630,588)  # selecionar equipe
+        pyautogui.click(607,594)  # selecionar equipe
         time.sleep(1)
-        pyautogui.click(1819,965) #salvar
+        pyautogui.click(1824,960) #salvar
         time.sleep(5)
 #------------------definir senha -------------
         pyautogui.click(168,364)

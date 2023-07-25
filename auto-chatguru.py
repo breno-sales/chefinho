@@ -64,19 +64,20 @@ def criar_usuario(session=None): # retorna os htmls de cada pagina
     if session is None:
         session = get_cookies()
 
-    dados = dados_excel()
-
+    # dados = dados_excel()
+    dados = pd.read_excel("C:/tester/tester.xlsx")
     url = 'https://app4.zap.guru/users/add'
 
-    for i in range(0,len(dados)):
+    for i in range(0,len(dados["nome_colaborador"])):
+        print(dados["email"][i])
 
         json = {
-            "email": str(dados[i][1]),
-            "name": str(dados[i][2]),
-            "password": str(dados[i][3]),
-            "auto_display_name_text": str(dados[i][4]),
+            "email": str(dados["email"][i]),
+            "name": str(dados["name"][i]),
+            "password": str(dados["password"][i]),
+            "auto_display_name_text": str(dados["auto_display_name_text"][i]),
             "auto_display_name": "on",
-            "type": str(dados[i][5]),
+            "type": str(dados["type"][i]),
             "permissions": {"ATTACHMENT_SEND",
                             "MSG_SCHEDULE",
                             "CONTACT_ADD",
@@ -112,9 +113,9 @@ def criar_usuario(session=None): # retorna os htmls de cada pagina
         response = session.post(url=url,data=json)
 
         if response.status_code == 200:
-            print(f"Criado usuario : {dados[i][0]}")
+            print(f"Criado usuario : {dados['name'][i]}")
         else:
-            print(f"ERROR usuario : {dados[i][0]}")
+            print(f"ERROR usuario : {dados['name'][i]}")
 
 
 
@@ -238,5 +239,5 @@ def update_user(path: str,session=None):
 
 if __name__ == '__main__':
 
-    # criar_usuario()
-    update_user("C:/tester/update_teste.xlsx")
+    criar_usuario()
+    # update_user("C:/tester/update_teste.xlsx")

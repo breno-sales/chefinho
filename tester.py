@@ -2,7 +2,7 @@ import pyautogui
 
 def teste():
     mouseX,mouseY = pyautogui.position()
-    print(mouseX,mouseY)
+    print(mouseX,",",mouseY)
 
 def mover(x,y):
     pyautogui.moveTo(x,y)

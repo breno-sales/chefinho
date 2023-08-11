@@ -1,7 +1,7 @@
 import pandas as pd
 import win32com.client as win32
 
-
+# SÓ VAI FUNCIONAR SE TIVER COM O OUTLOOK ABERTO (APP)
 def enviar_email(mensagem: str, email_para_envio: str):
 
     olApp = win32.Dispatch('Outlook.Application')
@@ -32,8 +32,7 @@ def dados():
 
         email = dados['email'][i]
 
-        senha_padrao = nome_usuario[0].upper()
-        senha_padrao += nome_usuario[nome_usuario.find(".")+1].upper()
+        senha_padrao = dados['senha_aleatoria'][i]
 
         mensagem = f"""Prezados {nome_colaborado}, Bom dia.
     
@@ -44,19 +43,24 @@ def dados():
         Acessos:
         
         Chatguru:
+        link: https://app4.zap.guru/login
         Login: {email}
         Senha: Stella123!
         
         Callix:
+        link: https://stellaenergia.callix.com.br/login
         Login: {nome_usuario}
-        Senha: Stella123!
+        Senha: Stella123!"""
         
-        Email/Teams:
-        Login: {email}
-        Senha: {senha_padrao}#@!1310"""
+        # Email/Teams:
+        # Login: {email}
+        # Senha: {senha_padrao}"""
 
         enviar_email(mensagem=mensagem, email_para_envio=email)
         print(f'email enviado para {nome_colaborado}')
+        # print(senha_padrao)
 
 if __name__ == '__main__':
     dados()
+
+    # SÓ VAI FUNCIONAR SE TIVER COM O OUTLOOK ABERTO (APP)

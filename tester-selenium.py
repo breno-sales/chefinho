@@ -50,10 +50,17 @@ def aa():
 
     for i in range(0,len(dados['Nome do colaborador'])):
 
+        espaco = []
         nome = dados['Nome do colaborador'][i]
-        espaco = nome.find(' ')
-        nome_buscado = nome[0:espaco[0]]+' '+nome[espaco[-1]:]
+
+        for i in range(0,len(nome)):
+            if nome[i] == " ":
+                espaco.append(i)
+
+        nome_buscado = nome[0:espaco[0]]+nome[espaco[-1]:]
+        nome_buscado = nome_buscado.lower()
         print(nome_buscado)
+
 
 def teste():
 

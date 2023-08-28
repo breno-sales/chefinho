@@ -59,7 +59,7 @@ def dados_excel_update(path: str):
     return usuarios_json
 
 
-def criar_usuario(session=None): # retorna os htmls de cada pagina
+def criar_user_chatguru(session=None): # retorna os htmls de cada pagina
 
     if session is None:
         session = get_cookies()
@@ -239,5 +239,5 @@ def update_user(path: str,session=None):
 
 if __name__ == '__main__':
 
-    criar_usuario()
+    criar_user_chatguru()
     # update_user("C:/tester/update_teste.xlsx")

@@ -15,7 +15,7 @@ def aa():
 
 
 
-def teste():
+def listagem_emails():
 
     dados = pd.read_excel("C:/tester/tester.xlsx")
     cabecalho_arq = pd.read_csv("C:/tester/outlook_template.csv")
@@ -57,4 +57,4 @@ def teste():
 
 
 if __name__ == '__main__':
-    teste()
+    listagem_emails()

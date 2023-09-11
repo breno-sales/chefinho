@@ -16,16 +16,23 @@ def busca_all_click(driver: str, tipo:str, objeto_buscado:str, escrever=None):
         'name': By.NAME,
         'id': By.ID,
     }
+    try:
+        time.sleep(3)
+        if escrever == None:
+            WebDriverWait(driver, 30).until(EC.presence_of_element_located((tipos[tipo], objeto_buscado)))
+            driver.find_element(tipos[tipo], objeto_buscado).click()
+        else:
+            WebDriverWait(driver, 30).until(EC.presence_of_element_located((tipos[tipo], objeto_buscado))).click()
+            campo = driver.find_element(tipos[tipo], objeto_buscado)
+            campo.send_keys(escrever)
 
-    if escrever != None:
-        WebDriverWait(driver, 30).until(EC.presence_of_element_located((tipos[tipo], objeto_buscado))).click()
-        campo = driver.find_element(tipos[tipo], objeto_buscado)
-        campo.send_keys(escrever)
+    except:
+        pass
 
-    else:
-        WebDriverWait(driver, 30).until(EC.presence_of_element_located((tipos[tipo], objeto_buscado))).click()
 
-    time.sleep(2)
+    finally:
+
+        time.sleep(2)
 
 
 def escrever(tab:int, escrever:str):
@@ -70,6 +77,8 @@ def teste():
     navegador = webdriver.Chrome()
     nome_buscado = "Breno"
 
+    gerente = dados['Gestor']
+
     navegador.get("https://admin.microsoft.com/?auth_upn=breno.sales%40stellaenergia.com.br&source=applauncher#/users")
 
     busca_all_click(navegador, 'id', 'i0118', senha)
@@ -78,31 +87,86 @@ def teste():
     busca_all_click(navegador, 'name', 'Usuários')
     busca_all_click(navegador, 'name', 'Usuários ativos')
 
-    for i in range(0,dados['Nome do colaborador']):
+    try:
+        for linha in range(0,len(dados['Nome do colaborador'])):
+            if dados['feito'][linha] != 1:
 
-        nome = dados['Nome do colaborador'][i]
-        nome_buscado = nome[0:nome.find(' ')[0]]+' '+nome[nome.find(' ')[-1]:]
-        print(nome_buscado)
+                gerente = dados['Gestor'][linha]
+                espaco_gerente = []
+                for esp in range(0, len(gerente)):
+                    if gerente[esp] == " ":
+                        espaco_gerente.append(esp)
 
-    busca_all_click(navegador, 'css', 'input[role="searchbox"]', nome_buscado)
-    pyautogui.press('enter')
+                gerente = gerente[0:espaco_gerente[0]] + gerente[espaco_gerente[-1]:]
 
-    busca_all_click(navegador, 'css', 'div[data-automation-key="DisplayName"]') # vai selecionar sempre o primeiro encontrado na listagem
+                espaco = []
+                nome = dados['Nome do colaborador'][linha]
 
-    time.sleep(3)
-    confirma(14)
+                for esp in range(0, len(nome)):
+                    if nome[esp] == " ":
+                        espaco.append(esp)
 
-    time.sleep(2)
+                primeiro_nome = nome[0:espaco[0]].title()
+                nome_buscado = nome[0:espaco[0]] + nome[espaco[-1]:]
+                nome_buscado = nome_buscado.title()
 
-    escrever(2,'Breno') # nome
-    escrever(1, 'Sales')  # sobrenome
-    escrever(1, nome_buscado+' - Stella Energia')  # nome de exibição
-    escrever(1, 'Beeh')  # cargo
-    escrever(1, 'Beeh')  # Departamento
-    confirma(10) # confirma
-    confirma(2)  # fecha a edição
-    confirma(5) # clica em fechar
+                busca_all_click(navegador, 'css', 'input[role="searchbox"]')
+                pyautogui.hotkey('ctrl', 'a')
+                pyautogui.press('del')
+                escrever(0,nome_buscado)
 
+
+                pyautogui.press('enter')
+
+                busca_all_click(navegador, 'css', 'div[data-automation-key="DisplayName"]') # vai selecionar sempre o primeiro encontrado na listagem
+
+                time.sleep(10)
+                # try:
+                #     busca_all_click(navegador, 'css','button[data-automation-id="AlternativeLinkLink"]')  # vai selecionar endereço de email alternativo caso exista
+                #     pyautogui.press('tab')
+                #     pyautogui.press('tab')
+                #     pyautogui.press('del')
+                #     pyautogui.press('tab')
+                #     pyautogui.press('enter')
+
+                # finally:
+                modal = navegador.find_element(By.CSS_SELECTOR, 'div[class^="ms-Panel-scrollableContent scrollableContent-"]')
+                busca_all_click(modal, 'css', 'button[arialabel="Adicionar gerenciador"]')
+                # confirma(13)
+                escrever(2,gerente) # escolher gerente
+                time.sleep(3)
+                confirma(0) #escolher o primeiro presente na pesquisa
+                confirma(1) #salvar alterações
+                time.sleep(3)
+                pyautogui.press('esc') # voltar a tela do usuario
+                pyautogui.press('esc')
+
+                busca_all_click(navegador, 'css','div[data-automation-key="DisplayName"]')  # vai selecionar sempre o primeiro encontrado na listagem
+
+                time.sleep(10)
+                confirma(14)
+                time.sleep(2)
+                for cont in range(0,4):
+                    pyautogui.press('tab')
+                # escrever(2,'Breno') # nome
+                # escrever(1, 'Sales')  # sobrenome
+                # escrever(1, nome_buscado+' - Stella Energia')  # nome de exibição
+                escrever(1, dados['Cargo'][linha])  # cargo
+                # escrever(1, ' ')  # Departamento
+                pyautogui.press('tab')
+                confirma(10) # confirma
+                time.sleep(3)
+                confirma(2)  # fecha a edição
+                # confirma(5) # clica em fechar
+                time.sleep(3)
+                pyautogui.press('esc')
+                pyautogui.press('esc')
+                print(f'feito usuario = {nome_buscado}')
+
+                dados['feito'][linha] = '1'
+
+    finally:
+        dados.to_excel("C:/tester/atualizar_office_teste.xlsx", index=False)
 
     # busca_all_click(navegador, 'css', 'button[humanfriendlyname="EditContactInformation"]')
 
@@ -111,5 +175,9 @@ def teste():
 
 
 
+
+
+    print(dados)
+
 if __name__ == "__main__":
-    aa()
+    teste()
